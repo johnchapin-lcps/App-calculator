@@ -50,38 +50,62 @@ export default class App extends Component {
 
 
     mult = () => {
-        // update teamTwoScore by 3
-        this.setState({
-            operator: 'plus',
-        })
+      this.setState({
+          operator: 'mult',
+          prev: this.state.current,
+          current: this.state.prev,
+      })
     }
 
     minus = () => {
-        // update teamTwoScore by 3
-        this.setState({
-            total: prev / current,
-        })
+      this.setState({
+          operator: 'minus',
+          prev: this.state.current,
+          current: this.state.prev,
+      })
     }
 
     plus = () => {
         // update teamTwoScore by 3
         this.setState({
-            total: prev / current,
+            operator: 'plus',
+            prev: this.state.current,
+            current: this.state.prev,
         })
     }
 
 
     eq = () => {
         // update teamTwoScore by 3
-        switch(this.state.operator)
+        switch(this.state.operator){
           case 'divide':
             this.setState({
-                total: prev / current,
-            })
+                current: this.state.prev / this.state.current,
+            });
+            break;
           case 'plus':
             this.setState({
-                total: prev + current,
-            })
+                current: this.state.prev + this.state.current,
+            });
+            break;
+          case 'minus':
+            this.setState({
+                current: this.state.prev - this.state.current,
+            });
+            break;
+          case 'mult':
+            this.setState({
+                current: this.state.prev * this.state.current,
+            });
+            break;
+          default:
+            this.setState({
+                current: 1000,
+            });
+        }
+        this.setState({
+            prev: 0,
+        });
     }
 
     addDigit = (digit) => {
@@ -111,6 +135,16 @@ export default class App extends Component {
                 <Text style={styles.paragraph}>
                     Calculator
                 </Text>
+{/*ROW 0 */}
+            <View style={styles.top}>
+                 <View style={styles.mainNumberView}>
+
+                         <Text style={styles.mainNumber}>
+                             {this.state.current}
+                         </Text>
+
+                 </View>
+              </View>
  {/*ROW 1 */}
                 <View style={styles.buttonContainer}>
                     <TouchableHighlight
@@ -359,6 +393,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'green',
+    },
+    top: {
+        flexDirection: 'row',
+    },
+    mainNumberView: {
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        backgroundColor: 'grey',
+        height: 50,
+        width: 320,
+    },
+
+    mainNumber: {
+        color: 'white',
+        fontSize: 40,
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
     paragraph: {
         color: 'white',
