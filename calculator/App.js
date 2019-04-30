@@ -6,43 +6,102 @@ export default class App extends Component {
    state = {
         teamOneScore: 0,
         teamTwoScore: 0,
-        first:0,
-        second:0,
+        current:0,
+        prev:0,
         total:0,
+        decimalFlag: false,
+        operator: 'divide'
     }
 
-    teamOneTouchdown = () => {
-        // update teamOneScore by 7
-        this.setState({
-            teamOneScore: this.state.teamOneScore + 7,
-        })
-    }
 
-    teamOneFieldGoal = () => {
-        // update teamOneScore by 3
-        this.setState({
-            teamOneScore: this.state.teamOneScore + 3,
-        })
-    }
-
-    teamTwoTouchdown = () => {
-        // update teamTwoScore by 7
-        this.setState({
-            teamTwoScore: this.state.teamTwoScore + 7,
-        })
-    }
-
-    teamTwoFieldGoal = () => {
-        // update teamTwoScore by 3
-        this.setState({
-            teamTwoScore: this.state.teamTwoScore + 3,
-        })
-    }
 
     allClear = () => {
         // update teamTwoScore by 3
         this.setState({
-            teamTwoScore: this.state.teamTwoScore + 3,
+            current: 0,
+            prev: 0,
+            total: 0,
+        })
+    }
+
+    reverseSign = () => {
+        // update teamTwoScore by 3
+        this.setState({
+            current: this.state.current * -1,
+        })
+    }
+
+    percentage = () => {
+        // update teamTwoScore by 3
+        this.setState({
+            current: this.state.current * .01,
+        })
+    }
+
+    divide = () => {
+
+        this.setState({
+            operator: 'divide',
+            prev: this.state.current,
+            current: this.state.prev,
+        })
+
+    }
+
+
+    mult = () => {
+        // update teamTwoScore by 3
+        this.setState({
+            operator: 'plus',
+        })
+    }
+
+    minus = () => {
+        // update teamTwoScore by 3
+        this.setState({
+            total: prev / current,
+        })
+    }
+
+    plus = () => {
+        // update teamTwoScore by 3
+        this.setState({
+            total: prev / current,
+        })
+    }
+
+
+    eq = () => {
+        // update teamTwoScore by 3
+        switch(this.state.operator)
+          case 'divide':
+            this.setState({
+                total: prev / current,
+            })
+          case 'plus':
+            this.setState({
+                total: prev + current,
+            })
+    }
+
+    addDigit = (digit) => {
+        // update teamTwoScore by 3
+        if (this.state.current >= 0)
+          this.setState({
+            current: this.state.current *10 + digit,
+          })
+        else {
+          this.setState({
+            current: this.state.current *10 - digit,
+          })
+        }
+    }
+
+
+    addDecimal = (digit) => {
+        // update teamTwoScore by 3
+        this.setState({
+            decimalFlag: true,
         })
     }
 
@@ -52,7 +111,7 @@ export default class App extends Component {
                 <Text style={styles.paragraph}>
                     Calculator
                 </Text>
-
+ {/*ROW 1 */}
                 <View style={styles.buttonContainer}>
                     <TouchableHighlight
                         style={styles.button}
@@ -68,35 +127,211 @@ export default class App extends Component {
                     <TouchableHighlight
                         style={styles.button}
                         onPress={() => {
-                        this.teamOneFieldGoal();
+                        this.reverseSign();
                     }}
                     >
                         <Text style={styles.buttonText}>
-                            TEAM 1 FIELD GOAL!
+                            +/-
+                        </Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                        style={styles.button}
+                        onPress={() => {
+                        this.percentage();
+                    }}
+                    >
+                        <Text style={styles.buttonText}>
+                            %
+                        </Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                        style={styles.buttonOperator}
+                        onPress={() => {
+                        this.divide();
+                    }}
+                    >
+                        <Text style={styles.buttonText}>
+                            /
                         </Text>
                     </TouchableHighlight>
                 </View>
-
+ {/*ROW 2 */}
                 <View style={styles.buttonContainer}>
                     <TouchableHighlight
                         style={styles.button}
                         onPress={() => {
-                        this.teamTwoTouchdown();
+                        this.addDigit(7);
                     }}
                     >
                         <Text style={styles.buttonText}>
-                            TEAM 2 TOUCHDOWN!
+                            7
                         </Text>
                     </TouchableHighlight>
 
                     <TouchableHighlight
                         style={styles.button}
                         onPress={() => {
-                        this.teamTwoFieldGoal();
+                        this.addDigit(8);
                     }}
                     >
                         <Text style={styles.buttonText}>
-                            TEAM 2 FIELD GOAL!
+                            8
+                        </Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                        style={styles.button}
+                        onPress={() => {
+                        this.addDigit(9);
+                    }}
+                    >
+                        <Text style={styles.buttonText}>
+                            9
+                        </Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                        style={styles.buttonOperator}
+                        onPress={() => {
+                        this.mult();
+                    }}
+                    >
+                        <Text style={styles.buttonText}>
+                            X
+                        </Text>
+                    </TouchableHighlight>
+                </View>
+
+
+
+  {/*ROW 3 */}
+                 <View style={styles.buttonContainer}>
+                     <TouchableHighlight
+                         style={styles.button}
+                         onPress={() => {
+                         this.addDigit(4);
+                     }}
+                     >
+                         <Text style={styles.buttonText}>
+                             4
+                         </Text>
+                     </TouchableHighlight>
+
+                     <TouchableHighlight
+                         style={styles.button}
+                         onPress={() => {
+                         this.addDigit(5);
+                     }}
+                     >
+                         <Text style={styles.buttonText}>
+                             5
+                         </Text>
+                     </TouchableHighlight>
+
+                     <TouchableHighlight
+                         style={styles.button}
+                         onPress={() => {
+                         this.addDigit(6);
+                     }}
+                     >
+                         <Text style={styles.buttonText}>
+                             6
+                         </Text>
+                     </TouchableHighlight>
+
+                     <TouchableHighlight
+                         style={styles.buttonOperator}
+                         onPress={() => {
+                         this.minus();
+                     }}
+                     >
+                         <Text style={styles.buttonText}>
+                             -
+                         </Text>
+                     </TouchableHighlight>
+                 </View>
+
+    {/*ROW 4 */}
+                  <View style={styles.buttonContainer}>
+                      <TouchableHighlight
+                          style={styles.button}
+                          onPress={() => {
+                          this.addDigit(1);
+                      }}
+                      >
+                          <Text style={styles.buttonText}>
+                              1
+                          </Text>
+                      </TouchableHighlight>
+
+                      <TouchableHighlight
+                          style={styles.button}
+                          onPress={() => {
+                          this.addDigit(2);
+                      }}
+                      >
+                          <Text style={styles.buttonText}>
+                              2
+                          </Text>
+                      </TouchableHighlight>
+
+                      <TouchableHighlight
+                          style={styles.button}
+                          onPress={() => {
+                          this.addDigit(3);
+                      }}
+                      >
+                          <Text style={styles.buttonText}>
+                              3
+                          </Text>
+                      </TouchableHighlight>
+
+                      <TouchableHighlight
+                          style={styles.buttonOperator}
+                          onPress={() => {
+                          this.plus();
+                      }}
+                      >
+                          <Text style={styles.buttonText}>
+                              +
+                          </Text>
+                      </TouchableHighlight>
+                  </View>
+  {/*ROW 5 */}
+                <View style={styles.buttonContainer}>
+                    <TouchableHighlight
+                        style={styles.buttonDouble}
+                        onPress={() => {
+                        this.addDigit(0);
+                    }}
+                    >
+                        <Text style={styles.buttonText}>
+                            0
+                        </Text>
+                    </TouchableHighlight>
+
+
+                    <TouchableHighlight
+                        style={styles.button}
+                        onPress={() => {
+                        this.addDecimal();
+                    }}
+                    >
+                        <Text style={styles.buttonText}>
+                            .
+                        </Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                        style={styles.buttonOperator}
+                        onPress={() => {
+                        this.eq();
+                    }}
+                    >
+                        <Text style={styles.buttonText}>
+                            =
                         </Text>
                     </TouchableHighlight>
                 </View>
@@ -106,11 +341,11 @@ export default class App extends Component {
                 </Text>
 
                 <Text style={styles.paragraph}>
-                    first:{this.state.first}
+                    prev:{this.state.prev}
                 </Text>
 
                 <Text style={styles.paragraph}>
-                    second:{this.state.second}
+                    current:{this.state.current}
                 </Text>
 
             </View>
@@ -144,8 +379,30 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+
+    buttonDouble: {
+
+        height: 50,
+        width: 160,
+        backgroundColor: 'green',
+        borderColor: 'white',
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    buttonOperator: {
+        height: 50,
+        width: 80,
+        backgroundColor: 'goldenrod',
+        borderColor: 'white',
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
     buttonText: {
         color: 'white',
-        fontSize: 10,
+        fontSize: 15,
     },
 });
