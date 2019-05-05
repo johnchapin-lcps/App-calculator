@@ -3,9 +3,11 @@ import { AppRegistry, Text, View, TouchableHighlight, StyleSheet } from 'react-n
 import { Constants } from 'expo';
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.addDigit = this.addDigit.bind(this);
+  }
    state = {
-        teamOneScore: 0,
-        teamTwoScore: 0,
         current:0,
         prev:0,
         total:0,
@@ -16,7 +18,7 @@ export default class App extends Component {
 
 
     allClear = () => {
-        // update teamTwoScore by 3
+
         this.setState({
             current: 0,
             prev: 0,
@@ -112,11 +114,11 @@ export default class App extends Component {
         // update teamTwoScore by 3
         if (this.state.current >= 0)
           this.setState({
-            current: this.state.current *10 + digit,
+            current: this.state.current*10 + digit,
           })
         else {
           this.setState({
-            current: this.state.current *10 - digit,
+            current: this.state.current*10 - digit,
           })
         }
     }
@@ -193,38 +195,12 @@ export default class App extends Component {
                 </View>
  {/*ROW 2 */}
                 <View style={styles.buttonContainer}>
-                    <TouchableHighlight
-                        style={styles.button}
-                        onPress={() => {
-                        this.addDigit(7);
-                    }}
-                    >
-                        <Text style={styles.buttonText}>
-                            7
-                        </Text>
-                    </TouchableHighlight>
 
-                    <TouchableHighlight
-                        style={styles.button}
-                        onPress={() => {
-                        this.addDigit(8);
-                    }}
-                    >
-                        <Text style={styles.buttonText}>
-                            8
-                        </Text>
-                    </TouchableHighlight>
+                    <ButtonNum1 num={7} updateDigit={this.addDigit}/>
+                    <ButtonNum1 num={8} updateDigit={this.addDigit}/>
+                    <ButtonNum1 num={9} updateDigit={this.addDigit}/>
 
-                    <TouchableHighlight
-                        style={styles.button}
-                        onPress={() => {
-                        this.addDigit(9);
-                    }}
-                    >
-                        <Text style={styles.buttonText}>
-                            9
-                        </Text>
-                    </TouchableHighlight>
+
 
                     <TouchableHighlight
                         style={styles.buttonOperator}
@@ -241,39 +217,11 @@ export default class App extends Component {
 
 
   {/*ROW 3 */}
-                 <View style={styles.buttonContainer}>
-                     <TouchableHighlight
-                         style={styles.button}
-                         onPress={() => {
-                         this.addDigit(4);
-                     }}
-                     >
-                         <Text style={styles.buttonText}>
-                             4
-                         </Text>
-                     </TouchableHighlight>
+                  <View style={styles.buttonContainer}>
 
-                     <TouchableHighlight
-                         style={styles.button}
-                         onPress={() => {
-                         this.addDigit(5);
-                     }}
-                     >
-                         <Text style={styles.buttonText}>
-                             5
-                         </Text>
-                     </TouchableHighlight>
-
-                     <TouchableHighlight
-                         style={styles.button}
-                         onPress={() => {
-                         this.addDigit(6);
-                     }}
-                     >
-                         <Text style={styles.buttonText}>
-                             6
-                         </Text>
-                     </TouchableHighlight>
+                    <ButtonNum1 num={5} updateDigit={this.addDigit}/>
+                    <ButtonNum1 num={6} updateDigit={this.addDigit}/>
+                    <ButtonNum1 num={7} updateDigit={this.addDigit}/>
 
                      <TouchableHighlight
                          style={styles.buttonOperator}
@@ -289,38 +237,9 @@ export default class App extends Component {
 
     {/*ROW 4 */}
                   <View style={styles.buttonContainer}>
-                      <TouchableHighlight
-                          style={styles.button}
-                          onPress={() => {
-                          this.addDigit(1);
-                      }}
-                      >
-                          <Text style={styles.buttonText}>
-                              1
-                          </Text>
-                      </TouchableHighlight>
-
-                      <TouchableHighlight
-                          style={styles.button}
-                          onPress={() => {
-                          this.addDigit(2);
-                      }}
-                      >
-                          <Text style={styles.buttonText}>
-                              2
-                          </Text>
-                      </TouchableHighlight>
-
-                      <TouchableHighlight
-                          style={styles.button}
-                          onPress={() => {
-                          this.addDigit(3);
-                      }}
-                      >
-                          <Text style={styles.buttonText}>
-                              3
-                          </Text>
-                      </TouchableHighlight>
+                    <ButtonNum1 num={1} updateDigit={this.addDigit}/>
+                    <ButtonNum1 num={2} updateDigit={this.addDigit}/>
+                    <ButtonNum1 num={3} updateDigit={this.addDigit}/>
 
                       <TouchableHighlight
                           style={styles.buttonOperator}
@@ -382,10 +301,33 @@ export default class App extends Component {
                     current:{this.state.current}
                 </Text>
 
+
+
             </View>
       );
    }
 }
+
+class ButtonNum1 extends Component {
+  render() {
+    return (
+      <View style={{alignItems: 'center'}}>
+                              <TouchableHighlight
+                          style={styles.button}
+                          onPress={() => {
+                          this.props.updateDigit(this.props.num);
+                      }}
+                      >
+                          <Text style={styles.buttonText}>
+                              {this.props.num}
+                          </Text>
+                      </TouchableHighlight>
+      </View>
+    );
+  }
+}
+
+
 
 const styles = StyleSheet.create({
     container: {
